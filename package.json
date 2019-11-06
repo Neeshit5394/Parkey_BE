@@ -1,0 +1,19 @@
+{
+  "name": "parky",
+  "version": "1.0.0",
+  "description": "Parky Backend Code",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "seed": "node ./users/seed.js"
+  },
+  "author": "Ghostbusters",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongodb": "^3.1.8",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {}
+}

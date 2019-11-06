@@ -1,0 +1,290 @@
+{
+	"info": {
+		"_postman_id": "cc7bcde0-6bb7-4183-9a1e-d38ab590e836",
+		"name": "Parky",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"User2\",\n\t\"email\" : \"abc@gmail.com\",\n\t\"phnumber\" : 1234,\n\t\"password\" : \"abc\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "One User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/users/45971f6c-06bc-41e3-9601-40c5a2d0bb18",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"45971f6c-06bc-41e3-9601-40c5a2d0bb18"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Listings",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"location\" : \"TestCoordinates\",\n\t\"details\" : \"Test Description\",\n\t\"availability\" : 1,\n\t\"price\" : 50,\n\t\"image\" : \"URL\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/listings/bee3dfc6-b4a2-4a0b-a6e9-f0f74b88fd86",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"listings",
+						"bee3dfc6-b4a2-4a0b-a6e9-f0f74b88fd86"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Listings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/listings",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"listings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "One Listing",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/listings/128ef353-54af-4cc6-b22a-f75a323e335e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"listings",
+						"128ef353-54af-4cc6-b22a-f75a323e335e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Listing",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/listings/128ef353-54af-4cc6-b22a-f75a323e335e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"listings",
+						"128ef353-54af-4cc6-b22a-f75a323e335e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All rentings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/rentings",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rentings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add renting",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"location\" : \"TestCoordinates\",\n\t\"details\" : \"Test Description\",\n\t\"duration\" : 1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/rentings/bee3dfc6-b4a2-4a0b-a6e9-f0f74b88fd86",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rentings",
+						"bee3dfc6-b4a2-4a0b-a6e9-f0f74b88fd86"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "One Renting",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/rentings/9ecf0675-a7ae-4e46-b150-e76be60d7487",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rentings",
+						"9ecf0675-a7ae-4e46-b150-e76be60d7487"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Renting",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/rentings/9ecf0675-a7ae-4e46-b150-e76be60d7487",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rentings",
+						"9ecf0675-a7ae-4e46-b150-e76be60d7487"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
