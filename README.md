@@ -58,6 +58,7 @@ Field: Data Type
 3. "listings/:id", POST => Add a new listing to the listings collection for a user with userID as :id.
 4. "listings/:id/:listingId", PATCH => Update only specific fields of the listing associated with a user with id as :id and listing id as :listingId.
 5. "listings/:listingId", DELETE => Delete listing with a particular id.
+2. "listings/:lat/:lon/:radius", GET => Get Array of Listings whose are within radius
 
 ### Rentings:
 
