@@ -20,7 +20,7 @@ const getUserByID = async (id) => {
 //Adding a user 
 //Need to add specific error checking
 //Need to check if user already exists!
-const addUser = async (name, email, phnumber, password) => {
+const addUser = async (name, email, phnumber) => {
     if (!errorChecking.dataValidString(name)) {
         throw "Invalid Name"
     }
@@ -32,13 +32,12 @@ const addUser = async (name, email, phnumber, password) => {
     }
 
     const userCollection = await users();
+    //Change uuid to the Firebase UID on user creation 
     const newUser = {
         name: name,
         email: email,
         phnumber: phnumber,
-        password: password, 
-        // listings: [], 
-        // rentings: [], 
+        // password: password, 
         _id: uuid()
     };
     const newInfo = await userCollection.insertOne(newUser);
@@ -48,7 +47,7 @@ const addUser = async (name, email, phnumber, password) => {
 }
 
 //Update Whole User
-const updateUser = async (id, name, email, phnumber, password) => {
+const updateUser = async (id, name, email, phnumber) => {
     const userCollection = await users();
     if (!errorChecking.dataValidString(name)) {
         throw `Invalid Name`
@@ -64,7 +63,7 @@ const updateUser = async (id, name, email, phnumber, password) => {
         name: name,
         email: email,
         phnumber: phnumber,
-        password: password, 
+        // password: password, 
     };
     const query = {
         _id: id

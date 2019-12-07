@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
     name,
     email,
     phnumber,
-    password
+    // password
   } = usersPostData;
   try {
     let errorMessage = ``;
@@ -59,7 +59,7 @@ router.put("/:id", async (req, res) => {
       name,
       email,
       phnumber,
-      password 
+      // password 
     } = updatedData;
     let errorMessage = ``;
     
@@ -96,9 +96,9 @@ router.patch("/:id", async (req, res) => {
     if (req.body.hasOwnProperty('phnumber')) {
         updatedUserData.steps = req.body.phnumber
     }
-    if (req.body.hasOwnProperty('password')) {
-        updatedUserData.steps = req.body.password
-    }
+    // if (req.body.hasOwnProperty('password')) {
+    //     updatedUserData.steps = req.body.password
+    // }
     if (errorMessage) {
       res.status(500).json({
         error: errorMessage
