@@ -55,12 +55,13 @@ const exportedMethods = {
     return listing;
   },
 
-  async addListing(userID,lat,lon,details,endTime, startTime ,price) 
+  async addListing(userID,lat,lon, locationName, details,endTime, startTime ,price) 
   {
     const listingCollection = await listings();
     const newListing = {
       lat: lat,
       lon: lon,
+      locaationName: locationName,
       details: details, 
       endTime: endTime,
       startTime: startTime,
@@ -77,7 +78,7 @@ const exportedMethods = {
     const listingCollection = await listings();
     let updatedData = {};
     //Error checking
-    if(patchData.lat === undefined && patchData.lon === undefined && patchData.details === undefined && patchData.startTime === undefined && patchData.endTime === undefined && patchData.price === undefined)
+    if(patchData.lat === undefined && patchData.lon === undefined && patchData.locationName === undefined && patchData.details === undefined && patchData.startTime === undefined && patchData.endTime === undefined && patchData.price === undefined)
     {
       throw "Please provide atleast one of the field";
     }

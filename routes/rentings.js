@@ -23,8 +23,8 @@ router.get("/:id", async (req, res) => {
 router.post("/:id", async (req, res) => {
   const rentingData = req.body;
   try {
-    const {location, details, startTime, endTime} = rentingData;
-    const newRenting = await rentings.addRenting(req.params.id, location, details, startTime, endTime);
+    const {locationName, details, startTime, endTime} = rentingData;
+    const newRenting = await rentings.addRenting(req.params.id, locationName, details, startTime, endTime);
     res.json(newRenting);
   } catch (e) {
     res.status(400).json({ error: e });
