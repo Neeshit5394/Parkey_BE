@@ -16,13 +16,14 @@ const exportedMethods = {
     return renting;
   },
 
-  async addRenting(userID, location, details, duration) 
+  async addRenting(userID, location, details, startTime, endTime) 
   {
     const rentingCollection = await rentings();
     const newRenting = {
       location: location,
       details: details, 
-      duration: duration, 
+      startTime: startTime,
+      endTime: endTime,  
       owner: userID, 
       _id: uuid()
     }; 
