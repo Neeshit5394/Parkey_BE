@@ -4,10 +4,49 @@ const listings = mongoCollections.listings;
 //const userData = require("./users");
 const uuid = require("uuid/v4");
 
+//Finding Distance
+var distance = require('google-distance');
+distance.apiKey = 'AIzaSyB8Y6gjOGAKQNFrYxkLK7DGXfHYr0F9cKs';
+
 const exportedMethods = {
   async getAllListings() {
     const listingCollection = await listings();
     return await listingCollection.find({}).toArray();
+  },
+
+  //Function to get all listing within Radius
+  async getAllListingswithRadius(latS,lonS,radius) {
+    const listingCollection = await listings();
+    r = parseInt(radius);
+    alllistArray =  await listingCollection.find({}).toArray();
+    FinalList = [];
+    i = 0;
+    while(i < alllistArray.length)
+    {
+      var d = 0;
+      var latD = alllistArray[i].lat;
+      var lonD = alllistArray[i].lon;
+      const result = await new Promise(function (resolve,reject){
+        distance.get({
+          origin: `${latS},${lonS}`,
+          destination: `${latD},${lonD}`,
+          mode: 'walking',
+          units: 'imperial'
+        },function(err,data){
+          if(err){reject(err);}
+          else{resolve(data);}
+        });
+      });
+      d = parseInt(result.distance.split(" ")[0]);
+      console.log(d);
+      console.log(r);
+      if(d <= r)
+      {
+        FinalList.push(alllistArray[i]);
+      }
+      i = i + 1;
+    }
+    return FinalList;
   },
   async getListingById(id) {
     const listingCollection = await listings();
@@ -16,11 +55,12 @@ const exportedMethods = {
     return listing;
   },
 
-  async addListing(userID, location, details, availability, price, image) 
+  async addListing(userID,lat,lon,details,availability,price,image) 
   {
     const listingCollection = await listings();
     const newListing = {
-      location: location,
+      lat: lat,
+      lon: lon,
       details: details, 
       availability: availability,
       price: price, 
@@ -37,15 +77,20 @@ const exportedMethods = {
     const listingCollection = await listings();
     let updatedData = {};
     //Error checking
-    if(patchData.location === undefined && patchData.details === undefined && patchData.availability === undefined && patchData.price === undefined && patchData.image === undefined)
+    if(patchData.lat === undefined && patchData.lon === undefined && patchData.details === undefined && patchData.availability === undefined && patchData.price === undefined && patchData.image === undefined)
     {
       throw "Please provide atleast one of the field";
     }
     
-    if(patchData.location) 
+    if(patchData.lat) 
     {
-      if(typeof(patchData.location) !== "string") {throw "Please provide a valid location in text format";}
-      else {updatedData.location = patchData.location;}
+      if(typeof(patchData.lat) !== "string") {throw "Please provide a valid latitude";}
+      else {updatedData.lat = patchData.lat;}
+    }
+    if(patchData.lon) 
+    {
+      if(typeof(patchData.lon) !== "string") {throw "Please provide a valid longitude";}
+      else {updatedData.lon = patchData.lon;}
     }
     if(patchData.details) 
     {

@@ -4,9 +4,20 @@ const data = require("../data");
 const listings = data.listings;
 const userData = data.users;
 
+
 router.get("/", async (req, res) => {
   try {
     const alllistings = await listings.getAllListings();
+    if(alllistings.length === 0) { res.status(200).send("No Listings to display")}
+    else {res.json(alllistings);}
+    }
+    catch (e) {res.status(404).json({ error: e });}
+});
+
+// Radius Function Implemented
+router.get("/:lat/:lon/:radius", async (req, res) => {
+  try {
+    const alllistings = await listings.getAllListingswithRadius(req.params.lat,req.params.lon,req.params.radius);
     if(alllistings.length === 0) { res.status(200).send("No Listings to display")}
     else {res.json(alllistings);}
     }
@@ -21,19 +32,19 @@ router.get("/:id", async (req, res) => {
   catch (e) {res.status(404).json({ error: e });}
 });
 
-//Adding Listing
+//Adding Listing where id is UserId who is posting listing
 router.post("/:id", async (req, res) => {
   const listingData = req.body;
   try {
-    const {location, details, availability, price, image} = listingData;
-    const newListing = await listings.addListing(req.params.id, location, details,availability,price, image);
+    const {lat,lon, details, availability, price, image} = listingData;
+    const newListing = await listings.addListing(req.params.id, lat,lon, details,availability,price, image);
     res.json(newListing);
   } catch (e) {
     res.status(400).json({ error: e });
   }
 });
 
-//Updating Listing
+//Updating Listing where id is UserId
 router.patch("/:id/:listingId", async (req, res) => {
   const reqBody = req.body;
   try {
