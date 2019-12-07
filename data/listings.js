@@ -55,7 +55,7 @@ const exportedMethods = {
     return listing;
   },
 
-  async addListing(userID,lat,lon,details,availability,price,image) 
+  async addListing(userID,lat,lon,details,availability,price) 
   {
     const listingCollection = await listings();
     const newListing = {
@@ -64,7 +64,6 @@ const exportedMethods = {
       details: details, 
       availability: availability,
       price: price, 
-      image: image, 
       owner: userID, 
       _id: uuid()
     };
@@ -77,7 +76,7 @@ const exportedMethods = {
     const listingCollection = await listings();
     let updatedData = {};
     //Error checking
-    if(patchData.lat === undefined && patchData.lon === undefined && patchData.details === undefined && patchData.availability === undefined && patchData.price === undefined && patchData.image === undefined)
+    if(patchData.lat === undefined && patchData.lon === undefined && patchData.details === undefined && patchData.availability === undefined && patchData.price === undefined)
     {
       throw "Please provide atleast one of the field";
     }
