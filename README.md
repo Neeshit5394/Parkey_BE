@@ -17,26 +17,29 @@ Field: Data Type
   name: String,
   email: String,
   phnumber: Integer,
-  password: String
+  id: Firebase UID
 }
 
 ### listings:
 Field: Data Type
 {
-  location: String,
+  lat: lat, 
+  lon: lon,
+  locationName: string,
   details: String,
-  availability: String,
+  startTime: Timestamp,
+  endTime: Timestamp,
   price: Integer,
-  image: tbd,
   owner: userid
 }
 
 ### rentings:
 Field: Data Type
 {
-  location: String,
+  locationName: String,
   details: String,
-  duration: Integer,
+  startTime: Timestamp,
+  endTime: Timestamp,
   owner: userid
 }
 
