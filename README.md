@@ -34,14 +34,14 @@ Field: Data Type
 }
 
 ### rentings:
-Field: Data Type
+```Field: Data Type
 {
   locationName: String,
   details: String,
   startTime: Timestamp,
   endTime: Timestamp,
   owner: userid
-}
+}```
 
 ## Routes
 
