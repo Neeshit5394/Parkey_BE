@@ -13,15 +13,18 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### users:
 Field: Data Type
+```
 {
   name: String,
   email: String,
   phnumber: Integer,
   id: Firebase UID
 }
+```
 
 ### listings:
 Field: Data Type
+```
 {
   lat: lat, 
   lon: lon,
@@ -32,6 +35,7 @@ Field: Data Type
   price: Integer,
   owner: userid
 }
+```
 
 ### rentings:
 Field: Data Type
