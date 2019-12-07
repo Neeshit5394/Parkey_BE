@@ -1,7 +1,7 @@
 {
   "name": "parky",
   "version": "1.0.0",
-  "description": "Parky Backend Code",
+  "description": "Parkey Backend Code",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,10 +12,11 @@
   "author": "Ghostbusters",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.16.4",
     "google-distance": "^1.0.1",
     "mongodb": "^3.1.8",
+    "nodemon": "^2.0.1",
     "uuid": "^3.3.3"
-  },
-  "devDependencies": {}
+  }
 }
