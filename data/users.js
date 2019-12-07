@@ -20,7 +20,7 @@ const getUserByID = async (id) => {
 //Adding a user 
 //Need to add specific error checking
 //Need to check if user already exists!
-const addUser = async (name, email, phnumber) => {
+const addUser = async (name, email, phnumber, id) => {
     if (!errorChecking.dataValidString(name)) {
         throw "Invalid Name"
     }
@@ -38,7 +38,7 @@ const addUser = async (name, email, phnumber) => {
         email: email,
         phnumber: phnumber,
         // password: password, 
-        _id: uuid()
+        _id: id
     };
     const newInfo = await userCollection.insertOne(newUser);
     const newId = newInfo.insertedId;

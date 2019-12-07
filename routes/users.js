@@ -18,11 +18,12 @@ router.post("/", async (req, res) => {
     name,
     email,
     phnumber,
+    id
     // password
   } = usersPostData;
   try {
     let errorMessage = ``;
-    const newUser = await usersData.addUser(name, email, phnumber);
+    const newUser = await usersData.addUser(name, email, phnumber, id);
     res.json(newUser);
     return;
   } catch (e) {
