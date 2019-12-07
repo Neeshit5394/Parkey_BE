@@ -6,10 +6,14 @@ const usersData = data.users;
 router.get("/", async (req, res) => {
   try {
     const allusers = await usersData.getAllUsers();
-    if(allusers.length === 0) { res.status(200).send("No Users to display")}
-    else {res.json(allusers);}
+    if (allusers.length === 0) {
+      res.status(200).send("No Users to display");
+    } else {
+      res.json(allusers);
     }
-    catch (e) {res.status(404).json({ error: e });}
+  } catch (e) {
+    res.status(404).json({ error: e });
+  }
 });
 
 router.post("/", async (req, res) => {
@@ -24,9 +28,9 @@ router.post("/", async (req, res) => {
   try {
     let errorMessage = ``;
     const newUser = await usersData.addUser(name, email, phnumber, id);
-    res.json(newUser);
-    return;
+    res.status(200).json(newUser);
   } catch (e) {
+    console.log(e);
     res.status(500).json({
       error: e
     });
@@ -46,28 +50,32 @@ router.get("/:id", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   const updatedData = req.body;
-  const userID = req.params.id
+  const userID = req.params.id;
   try {
     await usersData.getUserByID(userID);
   } catch (e) {
     res.status(404).json({
       error: "User not found"
     });
-    return
+    return;
   }
   try {
     const {
       name,
       email,
-      phnumber,
-      // password 
+      phnumber
+      // password
     } = updatedData;
     let errorMessage = ``;
-    
-    const updatedReciepe = await usersData.updateUser(userID, name, email, phnumber)
+
+    const updatedReciepe = await usersData.updateUser(
+      userID,
+      name,
+      email,
+      phnumber
+    );
     res.json(updatedReciepe);
-    return
-    
+    return;
   } catch (e) {
     res.status(500).json({
       error: e
@@ -83,19 +91,19 @@ router.patch("/:id", async (req, res) => {
     res.status(404).json({
       error: "User not found"
     });
-    return
+    return;
   }
   const updatedUserData = {};
-  let errorMessage = ''
+  let errorMessage = "";
   try {
-    if (req.body.hasOwnProperty('name')) {
-        updatedUserData.name = req.body.name
-    } 
-    if (req.body.hasOwnProperty('email')) {
-        updatedUserData.ingredients = req.body.email
+    if (req.body.hasOwnProperty("name")) {
+      updatedUserData.name = req.body.name;
     }
-    if (req.body.hasOwnProperty('phnumber')) {
-        updatedUserData.steps = req.body.phnumber
+    if (req.body.hasOwnProperty("email")) {
+      updatedUserData.ingredients = req.body.email;
+    }
+    if (req.body.hasOwnProperty("phnumber")) {
+      updatedUserData.steps = req.body.phnumber;
     }
     // if (req.body.hasOwnProperty('password')) {
     //     updatedUserData.steps = req.body.password
@@ -105,29 +113,31 @@ router.patch("/:id", async (req, res) => {
         error: errorMessage
       });
       //Why specify return ???
-      return
+      return;
     } else {
-      const updatedUser = await usersData.updateSpecificFields(userID, updatedUserData)
+      const updatedUser = await usersData.updateSpecificFields(
+        userID,
+        updatedUserData
+      );
       res.json(updatedUser);
     }
   } catch (e) {
-    console.log(`Error in patch ${e}`)
+    console.log(`Error in patch ${e}`);
     res.status(500).json({
       error: e
     });
   }
 });
 
-
 router.delete("/:id", async (req, res) => {
   try {
     await usersData.getUserByID(req.params.id);
     await usersData.removeUser(req.params.id);
-    res.sendStatus(204)
+    res.sendStatus(204);
   } catch (e) {
     res.status(500).json({ error: e });
-    return
+    return;
   }
 });
 
-module.exports = router
+module.exports = router;
