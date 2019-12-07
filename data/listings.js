@@ -55,14 +55,15 @@ const exportedMethods = {
     return listing;
   },
 
-  async addListing(userID,lat,lon,details,availability,price) 
+  async addListing(userID,lat,lon,details,endTime, startTime ,price) 
   {
     const listingCollection = await listings();
     const newListing = {
       lat: lat,
       lon: lon,
       details: details, 
-      availability: availability,
+      endTime: endTime,
+      startTime: startTime,
       price: price, 
       owner: userID, 
       _id: uuid()
@@ -76,7 +77,7 @@ const exportedMethods = {
     const listingCollection = await listings();
     let updatedData = {};
     //Error checking
-    if(patchData.lat === undefined && patchData.lon === undefined && patchData.details === undefined && patchData.availability === undefined && patchData.price === undefined)
+    if(patchData.lat === undefined && patchData.lon === undefined && patchData.details === undefined && patchData.startTime === undefined && patchData.endTime === undefined && patchData.price === undefined)
     {
       throw "Please provide atleast one of the field";
     }
@@ -95,11 +96,6 @@ const exportedMethods = {
     {
       if(typeof(patchData.details) !== "string") {throw "Please provide valid details in text format";}
       else {updatedData.details = patchData.details;}
-    }
-    if(patchData.availability) 
-    {
-      if(typeof(patchData.availability) !== "number") {throw "Please provide a valid availability in number format";}
-      else {updatedData.availability = patchData.availability;}
     }
     if(patchData.price) 
     {

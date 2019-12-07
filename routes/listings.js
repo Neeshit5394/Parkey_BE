@@ -36,8 +36,8 @@ router.get("/:id", async (req, res) => {
 router.post("/:id", async (req, res) => {
   const listingData = req.body;
   try {
-    const {lat,lon, details, availability, price} = listingData;
-    const newListing = await listings.addListing(req.params.id, lat,lon, details,availability,price);
+    const {lat,lon, details, startTime, endTime, price} = listingData;
+    const newListing = await listings.addListing(req.params.id, lat,lon, details, startTime, endTime, price);
     res.json(newListing);
   } catch (e) {
     res.status(400).json({ error: e });
