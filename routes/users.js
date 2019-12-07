@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
   } = usersPostData;
   try {
     let errorMessage = ``;
-    const newUser = await usersData.addUser(name, email, phnumber, password);
+    const newUser = await usersData.addUser(name, email, phnumber);
     res.json(newUser);
     return;
   } catch (e) {
@@ -63,7 +63,7 @@ router.put("/:id", async (req, res) => {
     } = updatedData;
     let errorMessage = ``;
     
-    const updatedReciepe = await usersData.updateUser(userID, name, email, phnumber, password)
+    const updatedReciepe = await usersData.updateUser(userID, name, email, phnumber)
     res.json(updatedReciepe);
     return
     
