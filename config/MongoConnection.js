@@ -1,7 +1,7 @@
 const MongoClient = require("mongodb").MongoClient;
 const settings = {
   mongoConfig: {
-    serverUrl: "mongodb://localhost:27017/",
+    serverUrl: "mongodb+srv://Neeshit:Neeshit1234@parkey-y53gc.mongodb.net/test?retryWrites=true&w=majority",
     database: "Parky-Backend"
   }
 };
