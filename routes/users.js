@@ -17,7 +17,9 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  console.log("hit!!!!!!!!");
   const usersPostData = req.body;
+  console.log(usersPostData);
   const {
     name,
     email,
@@ -103,7 +105,7 @@ router.patch("/:id", async (req, res) => {
       updatedUserData.ingredients = req.body.email;
     }
     if (req.body.hasOwnProperty("phnumber")) {
-      updatedUserData.steps = req.body.phnumber;
+      updatedUserData.phnumber = req.body.phnumber;
     }
     // if (req.body.hasOwnProperty('password')) {
     //     updatedUserData.steps = req.body.password
@@ -117,7 +119,7 @@ router.patch("/:id", async (req, res) => {
     } else {
       const updatedUser = await usersData.updateSpecificFields(
         userID,
-        updatedUserData
+        updatedUserData.phnumber
       );
       res.json(updatedUser);
     }
