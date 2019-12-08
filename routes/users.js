@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  console.log("hit!!!!!!!!");
+  // console.log(req.body);
   const usersPostData = req.body;
   console.log(usersPostData);
   const {
