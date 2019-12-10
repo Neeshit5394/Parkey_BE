@@ -1,7 +1,5 @@
 const mongoCollections = require("../config/mongoCollection");
 const listings = mongoCollections.listings;
-//const users = mongoCollections.users;
-//const userData = require("./users");
 const uuid = require("uuid/v4");
 
 //Finding Distance
@@ -15,7 +13,7 @@ const exportedMethods = {
   },
 
   //Function to get all listing within Radius
-  async getAllListingswithRadius(latS, lonS, radius) {
+  async getAllListingswithRadius(latS, lngS, radius) {
     const listingCollection = await listings();
     r = parseInt(radius);
     alllistArray = await listingCollection.find({}).toArray();
@@ -24,12 +22,12 @@ const exportedMethods = {
     while (i < alllistArray.length) {
       var d = 0;
       var latD = alllistArray[i].lat;
-      var lonD = alllistArray[i].lon;
+      var lngD = alllistArray[i].lng;
       const result = await new Promise(function(resolve, reject) {
         distance.get(
           {
-            origin: `${latS},${lonS}`,
-            destination: `${latD},${lonD}`,
+            origin: `${latS},${lngS}`,
+            destination: `${latD},${lngD}`,
             mode: "walking",
             units: "imperial"
           },
@@ -59,10 +57,16 @@ const exportedMethods = {
     return listing;
   },
 
+  async getAllListingsForUser(id) {
+    const listingCollection = await listings();
+    const userListings = await listingCollection.find({ owner: id }).toArray();
+    return userListings;
+  },
+
   async addListing(
     userID,
     lat,
-    lon,
+    lng,
     locationName,
     details,
     endTime,
@@ -70,10 +74,11 @@ const exportedMethods = {
     price
   ) {
     const listingCollection = await listings();
+
     const newListing = {
       lat: lat,
-      lon: lon,
-      locaationName: locationName,
+      lng: lng,
+      locationName: locationName,
       details: details,
       endTime: endTime,
       startTime: startTime,
@@ -81,6 +86,7 @@ const exportedMethods = {
       owner: userID,
       _id: uuid()
     };
+    console.log(newListing);
     const newList = await listingCollection.insertOne(newListing);
     const newId = newList.insertedId;
     return await this.getListingById(newId);
@@ -92,7 +98,7 @@ const exportedMethods = {
     //Error checking
     if (
       patchData.lat === undefined &&
-      patchData.lon === undefined &&
+      patchData.lng === undefined &&
       patchData.locationName === undefined &&
       patchData.details === undefined &&
       patchData.startTime === undefined &&
@@ -109,11 +115,11 @@ const exportedMethods = {
         updatedData.lat = patchData.lat;
       }
     }
-    if (patchData.lon) {
-      if (typeof patchData.lon !== "string") {
-        throw "Please provide a valid longitude";
+    if (patchData.lng) {
+      if (typeof patchData.lng !== "string") {
+        throw "Please provide a valid lnggitude";
       } else {
-        updatedData.lon = patchData.lon;
+        updatedData.lng = patchData.lng;
       }
     }
     if (patchData.details) {
