@@ -21,7 +21,8 @@ router.post("/", async (req, res) => {
   const usersPostData = req.body;
   console.log(usersPostData);
   const {
-    name,
+    firstName,
+    lastName,
     email,
     phnumber,
     id
@@ -29,7 +30,13 @@ router.post("/", async (req, res) => {
   } = usersPostData;
   try {
     let errorMessage = ``;
-    const newUser = await usersData.addUser(name, email, phnumber, id);
+    const newUser = await usersData.addUser(
+      firstName,
+      lastName,
+      email,
+      phnumber,
+      id
+    );
     res.status(200).json(newUser);
   } catch (e) {
     console.log(e);
@@ -42,7 +49,7 @@ router.post("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const user = await usersData.getUserByID(req.params.id);
-    res.json(user);
+    res.status(200).json(user);
   } catch (e) {
     res.status(404).json({
       error: "User not found"
@@ -62,12 +69,7 @@ router.put("/:id", async (req, res) => {
     return;
   }
   try {
-    const {
-      name,
-      email,
-      phnumber
-      // password
-    } = updatedData;
+    const { name, email, phnumber } = updatedData;
     let errorMessage = ``;
 
     const updatedReciepe = await usersData.updateUser(

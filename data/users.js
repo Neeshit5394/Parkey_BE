@@ -20,24 +20,24 @@ const getUserByID = async id => {
 //Adding a user
 //Need to add specific error checking
 //Need to check if user already exists!
-const addUser = async (name, email, phnumber, id) => {
-  if (!errorChecking.dataValidString(name)) {
+const addUser = async (firstName, lastName, email, phnumber, id) => {
+  if (!errorChecking.dataValidString(firstName)) {
     throw "Invalid Name";
   }
   if (!errorChecking.dataValidString(email)) {
     throw "Invalid Email";
   }
-  if (!errorChecking.dataValidInteger(phnumber)) {
-    throw "Invalid Phone Number";
-  }
+  // if (!errorChecking.dataValidInteger(phnumber)) {
+  //   throw "Invalid Phone Number";
+  // }
 
   const userCollection = await users();
   //Change uuid to the Firebase UID on user creation
   const newUser = {
-    name: name,
+    firstName: firstName,
+    lastName: lastName,
     email: email,
     phnumber: phnumber,
-    // password: password,
     _id: id
   };
   const newInfo = await userCollection.insertOne(newUser);
