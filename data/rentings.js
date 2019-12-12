@@ -16,24 +16,22 @@ const exportedMethods = {
     return renting;
   },
 
-  async addRenting(userID, locationName, details, startTime, endTime) 
-  {
+  async addRenting(owner, renter, locationName, details, startTime, endTime) {
     const rentingCollection = await rentings();
     const newRenting = {
       locationName: locationName,
-      details: details, 
+      details: details,
       startTime: startTime,
-      endTime: endTime,  
-      owner: userID, 
+      endTime: endTime,
+      owner: userID,
       _id: uuid()
-    }; 
-    const newRent = await rentingCollection.insertOne(newRenting); 
-    const newId = newRent.insertedId; 
-    return await this.getRentingById(newId); 
+    };
+    const newRent = await rentingCollection.insertOne(newRenting);
+    const newId = newRent.insertedId;
+    return await this.getRentingById(newId);
   },
 
-  async removeRenting(rentingId)
-  {
+  async removeRenting(rentingId) {
     const rentingCollection = await rentings();
     /*
     First check if renting exists then only try to delete it
@@ -41,12 +39,10 @@ const exportedMethods = {
     */
     const deletionInfo = await rentingCollection.removeOne({ _id: rentingId });
     if (deletionInfo.deletedCount === 0) {
-      
       throw `Could not delete Renting with id of ${rentingId}`;
-    }
-    else{
+    } else {
       return "Renting Successfully Deleted";
-    } 
+    }
   }
 };
 

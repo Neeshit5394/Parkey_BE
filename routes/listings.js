@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
     if (alllistings.length === 0) {
       res.status(200).send("No Listings to display");
     } else {
-      res.json(alllistings);
+      res.status(200).json(alllistings);
     }
   } catch (e) {
     res.status(404).json({ error: e });
@@ -84,8 +84,8 @@ router.post("/:id", async (req, res) => {
 });
 
 //Updating Listing where id is UserId
-router.patch("/:id/:listingId", async (req, res) => {
-  const reqBody = req.body;
+router.patch("/:listingId", async (req, res) => {
+  const renter = req.body;
   try {
     await userData.getUserByID(req.params.id);
     try {

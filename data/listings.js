@@ -69,8 +69,8 @@ const exportedMethods = {
     lng,
     locationName,
     details,
-    endTime,
     startTime,
+    endTime,
     price
   ) {
     const listingCollection = await listings();
