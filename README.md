@@ -27,7 +27,7 @@ Field: Data Type
 ```
 {
   lat: lat, 
-  lon: lon,
+  lng: lng,
   locationName: string,
   details: String,
   startTime: Timestamp,
