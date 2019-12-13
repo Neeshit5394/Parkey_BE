@@ -16,13 +16,13 @@ const exportedMethods = {
   async getAllListingswithRadius(latS, lngS, radius) {
     const listingCollection = await listings();
     r = parseInt(radius);
-    alllistArray = await listingCollection.find({}).toArray();
+    alllistArray = await this.getAllListings();
     FinalList = [];
     i = 0;
     while (i < alllistArray.length) {
       var d = 0;
       var latD = alllistArray[i].lat;
-      var lngD = alllistArray[i].lng;
+      var lngD = alllistArray[i].lon;
       const result = await new Promise(function(resolve, reject) {
         distance.get(
           {
@@ -50,6 +50,7 @@ const exportedMethods = {
     }
     return FinalList;
   },
+  
   async getListingById(id) {
     const listingCollection = await listings();
     const listing = await listingCollection.findOne({ _id: id });
