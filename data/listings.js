@@ -14,7 +14,6 @@ const exportedMethods = {
 
   //Function to get all listing within Radius
   async getAllListingswithRadius(latS, lngS, radius) {
-    const listingCollection = await listings();
     r = parseInt(radius);
     alllistArray = await this.getAllListings();
     FinalList = [];
@@ -22,7 +21,7 @@ const exportedMethods = {
     while (i < alllistArray.length) {
       var d = 0;
       var latD = alllistArray[i].lat;
-      var lngD = alllistArray[i].lon;
+      var lngD = alllistArray[i].lng;
       const result = await new Promise(function(resolve, reject) {
         distance.get(
           {
