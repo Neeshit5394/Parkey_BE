@@ -26,7 +26,8 @@ router.get("/:id", async (req, res) => {
     res.status(400).send({ error: e });
   }
 });
-// Radius Function Implemented
+
+//Radius Function Implemented
 router.get("/:lat/:lng/:radius", async (req, res) => {
   try {
     const alllistings = await listings.getAllListingswithRadius(
@@ -40,6 +41,7 @@ router.get("/:lat/:lng/:radius", async (req, res) => {
       res.json(alllistings);
     }
   } catch (e) {
+    console.log(e)
     res.status(404).json({ error: e });
   }
 });
@@ -83,20 +85,11 @@ router.post("/:id", async (req, res) => {
   }
 });
 
-//Updating Listing where id is UserId
+//Reserve the Listing
 router.patch("/:listingId", async (req, res) => {
-  const renter = req.body;
   try {
-    await userData.getUserByID(req.params.id);
-    try {
-      const updatedListing = await listings.updateListing(
-        req.params.listingId,
-        reqBody
-      );
-      res.json(updatedListing);
-    } catch (e) {
-      res.status(500).json({ error: e });
-    }
+    const list = await listings.reserveListing(req.params.listingId);
+    res.json(list);
   } catch (e) {
     res.status(404).json({ error: e });
   }
@@ -104,11 +97,6 @@ router.patch("/:listingId", async (req, res) => {
 
 //Deleting the listing
 router.delete("/:listingId", async (req, res) => {
-  // try {
-  //   await listings.getlistingById(req.params.id);
-  // } catch (e) {
-  //   res.status(404).json({ error: "listing not found" });
-  // }
   try {
     const deletedListing = await listings.removeListing(req.params.listingId);
     res.send(deletedListing);
