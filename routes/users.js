@@ -17,17 +17,9 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  // console.log(req.body);
   const usersPostData = req.body;
   console.log(usersPostData);
-  const {
-    firstName,
-    lastName,
-    email,
-    phnumber,
-    id
-    // password
-  } = usersPostData;
+  const { firstName, lastName, email, phnumber, id } = usersPostData;
   try {
     let errorMessage = ``;
     const newUser = await usersData.addUser(
@@ -57,36 +49,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
-  const updatedData = req.body;
-  const userID = req.params.id;
-  try {
-    await usersData.getUserByID(userID);
-  } catch (e) {
-    res.status(404).json({
-      error: "User not found"
-    });
-    return;
-  }
-  try {
-    const { name, email, phnumber } = updatedData;
-    let errorMessage = ``;
-
-    const updatedReciepe = await usersData.updateUser(
-      userID,
-      name,
-      email,
-      phnumber
-    );
-    res.json(updatedReciepe);
-    return;
-  } catch (e) {
-    res.status(500).json({
-      error: e
-    });
-  }
-});
-
 router.patch("/:id", async (req, res) => {
   const userID = req.params.id;
   try {
@@ -109,15 +71,10 @@ router.patch("/:id", async (req, res) => {
     if (req.body.hasOwnProperty("phnumber")) {
       updatedUserData.phnumber = req.body.phnumber;
     }
-    // if (req.body.hasOwnProperty('password')) {
-    //     updatedUserData.steps = req.body.password
-    // }
     if (errorMessage) {
       res.status(500).json({
         error: errorMessage
       });
-      //Why specify return ???
-      return;
     } else {
       const updatedUser = await usersData.updateSpecificFields(
         userID,

@@ -4,7 +4,7 @@ const uuid = require("uuid/v4");
 
 //Finding Distance
 var distance = require("google-distance");
-distance.apiKey = "AIzaSyCq_PMXB0mSp72E6wX1xkee_yoyaljsDLg"//process.env.DISTANCE_API_KEY;
+distance.apiKey = "AIzaSyCq_PMXB0mSp72E6wX1xkee_yoyaljsDLg"; //process.env.DISTANCE_API_KEY;
 
 const exportedMethods = {
   async getAllListings() {
@@ -49,7 +49,7 @@ const exportedMethods = {
     }
     return FinalList;
   },
-  
+
   async getListingById(id) {
     const listingCollection = await listings();
     const listing = await listingCollection.findOne({ _id: id });
@@ -84,6 +84,9 @@ const exportedMethods = {
       startTime: startTime,
       price: price,
       owner: userID,
+      rentedBy: null,
+      rentingStartTime: null,
+      billAmount: null,
       _id: uuid()
     };
     console.log(newListing);
@@ -94,7 +97,6 @@ const exportedMethods = {
 
   async updateListing(listingid, patchData) {
     const listingCollection = await listings();
-    let updatedData = {};
     //Error checking
     if (
       patchData.lat === undefined &&
@@ -142,6 +144,22 @@ const exportedMethods = {
       $set: { listings: updatedData }
     });
     return await this.getListingById(listingid);
+  },
+  async rentListing(listingId, renterId) {
+    if (listingId === "undefined" || renterId === "undefined")
+      throw new Error("please provide listingId and renterId");
+    try {
+      const listingCollection = await listings();
+      let updationInfo = await listingCollection.updateOne(
+        { _id: listingId },
+        { $set: { rentedBy: renterId } }
+      );
+      if (updationInfo.modifiedCount === 0)
+        throw new Error("Listing not updated!");
+      else return this.getListingById(listingId);
+    } catch (e) {
+      console.log(e);
+    }
   },
 
   async removeListing(listingId) {

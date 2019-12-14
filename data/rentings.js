@@ -10,7 +10,11 @@ const exportedMethods = {
     const rentingCollection = await rentings();
     return await rentingCollection.find({}).toArray();
   },
-
+  async getUserRentings(id) {
+    const listingCollection = await listings();
+    let data = await listingCollection.find({ rentedBy: id }).toArray();
+    return data;
+  },
   async getRentingById(id) {
     const rentingCollection = await rentings();
     const renting = await rentingCollection.findOne({ _id: id });
@@ -18,7 +22,7 @@ const exportedMethods = {
     return renting;
   },
 
-  async addRenting(listingId,user_Id) {
+  async addRenting(listingId, user_Id) {
     const rentingCollection = await rentings();
     const listingCollection = await listings();
     const listingData = await listingCollection.findOne({ _id: listingId });
@@ -26,7 +30,7 @@ const exportedMethods = {
     const rentingData = {
       _id: uuid(),
       renter: user_Id,
-      listingid : listingData._id,
+      listingid: listingData._id,
       active: true,
       lat: listingData.lat,
       lng: listingData.lng,

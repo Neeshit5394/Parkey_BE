@@ -3,7 +3,7 @@ const router = express.Router();
 const data = require("../data");
 const listings = data.listings;
 const userData = data.users;
-let i=0;
+let i = 0;
 router.get("/", async (req, res) => {
   try {
     const alllistings = await listings.getAllListings();
@@ -28,8 +28,8 @@ router.get("/:id", async (req, res) => {
 });
 // Radius Function Implemented
 router.get("/:lat/:lng/:radius", async (req, res) => {
-  console.log("hit",i++)
-  console.log(req.param.lat,req.param)
+  console.log("hit", i++);
+  console.log(req.param.lat, req.param);
   try {
     const alllistings = await listings.getAllListingswithRadius(
       req.params.lat,
@@ -37,14 +37,14 @@ router.get("/:lat/:lng/:radius", async (req, res) => {
       req.params.radius
     );
     if (alllistings.length === 0) {
-     res.status(200).json(null)
+      res.status(200).json(null);
     } else {
-      console.log(alllistings)
+      console.log(alllistings);
       res.json(alllistings);
     }
   } catch (e) {
-    console.log(e)
-    res.status(200).json(null)
+    console.log(e);
+    res.status(200).json(null);
   }
 });
 
@@ -87,32 +87,22 @@ router.post("/:id", async (req, res) => {
   }
 });
 
-//Updating Listing where id is UserId
-router.patch("/:listingId", async (req, res) => {
-  const renter = req.body;
+//Adding a renter to listing by patching rentedBy field
+router.patch("/:listingId/:renterId", async (req, res) => {
+  const renterId = req.params.renterId;
+  const listingId = req.params.listingId;
   try {
-    await userData.getUserByID(req.params.id);
-    try {
-      const updatedListing = await listings.updateListing(
-        req.params.listingId,
-        reqBody
-      );
-      res.json(updatedListing);
-    } catch (e) {
-      res.status(500).json({ error: e });
-    }
+    let rentedListing = await listings.rentListing(listingId, renterId);
+    if (rentedListing) res.status(200).json(rentedListing);
+    else throw new Error("could rent listing out!");
   } catch (e) {
+    console.log(e);
     res.status(404).json({ error: e });
   }
 });
 
 //Deleting the listing
 router.delete("/:listingId", async (req, res) => {
-  // try {
-  //   await listings.getlistingById(req.params.id);
-  // } catch (e) {
-  //   res.status(404).json({ error: "listing not found" });
-  // }
   try {
     const deletedListing = await listings.removeListing(req.params.listingId);
     res.send(deletedListing);
