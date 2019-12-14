@@ -63,12 +63,10 @@ router.get("/:id", async (req, res) => {
     const userExists = await client.getAsync(req.params.id);
     if(userExists === null)
     {
-      console.log("Not in Redis!");
       user = await usersData.getUserByID(req.params.id);
     }
     else
     {
-      console.log("User found in Redis");
       user  = JSON.parse(userExists);
     }
     res.status(200).json(user);

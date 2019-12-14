@@ -47,7 +47,6 @@ const addUser = async (firstName, lastName, email, phnumber, id) => {
 
 //Update Whole User
 const updateUser = async (id, name, email, phnumber) => {
-  //   console.log(name);
   const userCollection = await users();
   if (!errorChecking.dataValidString(name)) {
     throw `Invalid Name`;

@@ -29,8 +29,6 @@ router.get("/:id", async (req, res) => {
 
 //Radius Function Implemented
 router.get("/:lat/:lng/:radius", async (req, res) => {
-  console.log("hit", i++);
-  console.log(req.param.lat, req.param);
   try {
     const alllistings = await listings.getAllListingswithRadius(
       req.params.lat,

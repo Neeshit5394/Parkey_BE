@@ -41,9 +41,6 @@ const exportedMethods = {
       });
 
       d = parseInt(result.distance.split(" ")[0]);
-      console.log(d);
-      console.log(r);
-
       if (d <= r) {
         if (alllistArray[i].reserved === false) {
           FinalList.push(alllistArray[i]);
@@ -99,58 +96,6 @@ const exportedMethods = {
     const newId = newList.insertedId;
     return await this.getListingById(newId);
   },
-
-  // async updateListing(listingid, patchData) {
-  //   const listingCollection = await listings();
-  //   let updatedData = {};
-  //   //Error checking
-  //   if (
-  //     patchData.lat === undefined &&
-  //     patchData.lng === undefined &&
-  //     patchData.locationName === undefined &&
-  //     patchData.details === undefined &&
-  //     patchData.startTime === undefined &&
-  //     patchData.endTime === undefined &&
-  //     patchData.price === undefined
-  //   ) {
-  //     throw "Please provide atleast one of the field";
-  //   }
-
-  //   if (patchData.lat) {
-  //     if (typeof patchData.lat !== "string") {
-  //       throw "Please provide a valid latitude";
-  //     } else {
-  //       updatedData.lat = patchData.lat;
-  //     }
-  //   }
-  //   if (patchData.lng) {
-  //     if (typeof patchData.lng !== "string") {
-  //       throw "Please provide a valid lnggitude";
-  //     } else {
-  //       updatedData.lng = patchData.lng;
-  //     }
-  //   }
-  //   if (patchData.details) {
-  //     if (typeof patchData.details !== "string") {
-  //       throw "Please provide valid details in text format";
-  //     } else {
-  //       updatedData.details = patchData.details;
-  //     }
-  //   }
-  //   if (patchData.price) {
-  //     if (typeof patchData.price !== "number") {
-  //       throw "Please provide a valid price in number format";
-  //     } else {
-  //       updatedData.price = patchData.price;
-  //     }
-  //   }
-
-  // const query = { _id: listingid };
-  // await listingCollection.updateOne(query, {
-  //   $set: { listings: updatedData }
-  // });
-  // return await this.getListingById(listingid);
-  // },
 
   //Reserve the Listing
   async reserveListing(listingId) {
