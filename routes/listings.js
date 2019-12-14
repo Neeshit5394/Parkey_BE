@@ -26,7 +26,8 @@ router.get("/:id", async (req, res) => {
     res.status(400).send({ error: e });
   }
 });
-// Radius Function Implemented
+
+//Radius Function Implemented
 router.get("/:lat/:lng/:radius", async (req, res) => {
   console.log("hit", i++);
   console.log(req.param.lat, req.param);
@@ -43,8 +44,8 @@ router.get("/:lat/:lng/:radius", async (req, res) => {
       res.json(alllistings);
     }
   } catch (e) {
-    console.log(e);
-    res.status(200).json(null);
+    console.log(e)
+    res.status(404).json({ error: e });
   }
 });
 
