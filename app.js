@@ -11,7 +11,8 @@ app.use(bodyParser.json());
 
 configRoutes(app);
 
-app.listen(8080, () => {
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
   console.log("We've now got a server!");
   console.log("Your routes will be running on http://localhost:8080");
 });
