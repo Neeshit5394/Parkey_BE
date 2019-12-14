@@ -2,11 +2,13 @@ const express = require("express");
 const router = express.Router();
 const data = require("../data");
 const usersData = data.users;
+const REDISHOST = process.env.REDISHOST || 'localhost';
+const REDISPORT = process.env.REDISPORT || 6379;
 
 //Redis
 const bluebird = require("bluebird");
 const redis = require("redis");
-const client = redis.createClient();
+const client = redis.createClient(REDISPORT, REDISHOST);
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
