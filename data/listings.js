@@ -4,7 +4,7 @@ const uuid = require("uuid/v4");
 
 //Finding Distance
 var distance = require("google-distance");
-distance.apiKey = process.env.DISTANCE_API_KEY;
+distance.apiKey = "AIzaSyCq_PMXB0mSp72E6wX1xkee_yoyaljsDLg"//process.env.DISTANCE_API_KEY;
 
 const exportedMethods = {
   async getAllListings() {

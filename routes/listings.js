@@ -3,7 +3,7 @@ const router = express.Router();
 const data = require("../data");
 const listings = data.listings;
 const userData = data.users;
-
+let i=0;
 router.get("/", async (req, res) => {
   try {
     const alllistings = await listings.getAllListings();
@@ -28,6 +28,8 @@ router.get("/:id", async (req, res) => {
 });
 // Radius Function Implemented
 router.get("/:lat/:lng/:radius", async (req, res) => {
+  console.log("hit",i++)
+  console.log(req.param.lat,req.param)
   try {
     const alllistings = await listings.getAllListingswithRadius(
       req.params.lat,
@@ -35,12 +37,14 @@ router.get("/:lat/:lng/:radius", async (req, res) => {
       req.params.radius
     );
     if (alllistings.length === 0) {
-      res.status(200).send("No Listings to display");
+     res.status(200).json(null)
     } else {
+      console.log(alllistings)
       res.json(alllistings);
     }
   } catch (e) {
-    res.status(404).json({ error: e });
+    console.log(e)
+    res.status(200).json(null)
   }
 });
 
