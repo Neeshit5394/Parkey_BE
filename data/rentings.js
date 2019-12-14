@@ -1,5 +1,6 @@
 const mongoCollections = require("../config/mongoCollection");
 const rentings = mongoCollections.rentings;
+const listings = mongoCollections.listings;
 //const users = mongoCollections.users;
 //const userData = require("./users");
 const uuid = require("uuid/v4");
@@ -9,6 +10,7 @@ const exportedMethods = {
     const rentingCollection = await rentings();
     return await rentingCollection.find({}).toArray();
   },
+
   async getRentingById(id) {
     const rentingCollection = await rentings();
     const renting = await rentingCollection.findOne({ _id: id });
@@ -16,19 +18,41 @@ const exportedMethods = {
     return renting;
   },
 
-  async addRenting(owner, renter, locationName, details, startTime, endTime) {
+  async addRenting(listingId,user_Id) {
     const rentingCollection = await rentings();
-    const newRenting = {
-      locationName: locationName,
-      details: details,
-      startTime: startTime,
-      endTime: endTime,
-      owner: userID,
-      _id: uuid()
+    const listingCollection = await listings();
+    const listingData = await listingCollection.findOne({ _id: listingId });
+    const ctime = new Date();
+    const rentingData = {
+      _id: uuid(),
+      renter: user_Id,
+      listingid : listingData._id,
+      active: true,
+      lat: listingData.lat,
+      lng: listingData.lng,
+      locationName: listingData.locationName,
+      details: listingData.details,
+      price: listingData.price,
+      owner: listingData.owner,
+      startTime: listingData.startTime,
+      endTime: listingData.endTime,
+      startDate: ctime,
+      endDate: null
     };
-    const newRent = await rentingCollection.insertOne(newRenting);
+    const newRent = await rentingCollection.insertOne(rentingData);
     const newId = newRent.insertedId;
     return await this.getRentingById(newId);
+  },
+
+  //Add EndDate When User clicks "End Reservation"
+  async updateRenting(rentingId){
+    const rentingCollection = await rentings();
+    const query = { _id: rentingId };
+    const etime = new Date(); 
+    await rentingCollection.updateOne(query, {
+      $set: { endDate : etime }
+    });
+    return await this.getRentingById(rentingId);
   },
 
   async removeRenting(rentingId) {
