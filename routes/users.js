@@ -3,6 +3,18 @@ const router = express.Router();
 const data = require("../data");
 const usersData = data.users;
 
+//Redis
+const bluebird = require("bluebird");
+const redis = require("redis");
+const client = redis.createClient();
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
+
+//Check to see if Redis is connected
+client.on('connect', function(){
+  console.log("Connected to Redis....");
+});
+
 router.get("/", async (req, res) => {
   try {
     const allusers = await usersData.getAllUsers();
@@ -17,19 +29,15 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  // console.log(req.body);
   const usersPostData = req.body;
-  console.log(usersPostData);
   const {
     firstName,
     lastName,
     email,
     phnumber,
     id
-    // password
   } = usersPostData;
   try {
-    let errorMessage = ``;
     const newUser = await usersData.addUser(
       firstName,
       lastName,
@@ -37,6 +45,14 @@ router.post("/", async (req, res) => {
       phnumber,
       id
     );
+
+
+    //Cache the user entry for 1 hour only 
+    var r = JSON.stringify(usersPostData);
+    const userSet = await client.setexAsync(id,3600,r);
+    if(userSet)
+            console.log("User Successfully Stored in Cache");
+
     res.status(200).json(newUser);
   } catch (e) {
     console.log(e);
@@ -48,7 +64,18 @@ router.post("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const user = await usersData.getUserByID(req.params.id);
+    let user = null;
+    const userExists = await client.getAsync(req.params.id);
+    if(userExists === null)
+    {
+      console.log("Not in Redis!");
+      user = await usersData.getUserByID(req.params.id);
+    }
+    else
+    {
+      console.log("User found in Redis");
+      user  = JSON.parse(userExists);
+    }
     res.status(200).json(user);
   } catch (e) {
     res.status(404).json({
@@ -109,9 +136,7 @@ router.patch("/:id", async (req, res) => {
     if (req.body.hasOwnProperty("phnumber")) {
       updatedUserData.phnumber = req.body.phnumber;
     }
-    // if (req.body.hasOwnProperty('password')) {
-    //     updatedUserData.steps = req.body.password
-    // }
+
     if (errorMessage) {
       res.status(500).json({
         error: errorMessage
@@ -123,6 +148,13 @@ router.patch("/:id", async (req, res) => {
         userID,
         updatedUserData.phnumber
       );
+
+      //Cache the updated user entry
+      var r = JSON.stringify(updatedUser);
+      const userSet = await client.setexAsync(id,3600,r);
+      if(userSet)
+              console.log("User Successfully Updated in Cache");
+
       res.json(updatedUser);
     }
   } catch (e) {
