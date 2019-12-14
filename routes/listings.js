@@ -44,7 +44,7 @@ router.get("/:lat/:lng/:radius", async (req, res) => {
       res.json(alllistings);
     }
   } catch (e) {
-    console.log(e)
+    console.log(e);
     res.status(404).json({ error: e });
   }
 });
@@ -89,11 +89,16 @@ router.post("/:id", async (req, res) => {
 });
 
 //Adding a renter to listing by patching rentedBy field
-router.patch("/:listingId/:renterId", async (req, res) => {
+router.patch("/:listingId/:renterId/:rentingStartTime", async (req, res) => {
   const renterId = req.params.renterId;
   const listingId = req.params.listingId;
+  const rentingStartTime = req.params.rentingStartTime;
   try {
-    let rentedListing = await listings.rentListing(listingId, renterId);
+    let rentedListing = await listings.rentListing(
+      listingId,
+      renterId,
+      rentingStartTime
+    );
     if (rentedListing) res.status(200).json(rentedListing);
     else throw new Error("could rent listing out!");
   } catch (e) {

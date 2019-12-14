@@ -4,7 +4,7 @@ const uuid = require("uuid/v4");
 
 //Finding Distance
 var distance = require("google-distance");
-distance.apiKey = 'AIzaSyCq_PMXB0mSp72E6wX1xkee_yoyaljsDLg';//process.env.DISTANCE_API_KEY;
+distance.apiKey = "AIzaSyCq_PMXB0mSp72E6wX1xkee_yoyaljsDLg"; //process.env.DISTANCE_API_KEY;
 
 const exportedMethods = {
   async getAllListings() {
@@ -44,10 +44,8 @@ const exportedMethods = {
       console.log(d);
       console.log(r);
 
-      if (d <= r) 
-      {
-        if(alllistArray[i].reserved === false)
-        {
+      if (d <= r) {
+        if (alllistArray[i].reserved === false) {
           FinalList.push(alllistArray[i]);
         }
       }
@@ -94,7 +92,6 @@ const exportedMethods = {
       owner: userID,
       rentedBy: null,
       rentingStartTime: null,
-      billAmount: null,
       _id: uuid()
     };
     console.log(newListing);
@@ -148,30 +145,42 @@ const exportedMethods = {
   //     }
   //   }
 
-    // const query = { _id: listingid };
-    // await listingCollection.updateOne(query, {
-    //   $set: { listings: updatedData }
-    // });
-    // return await this.getListingById(listingid);
+  // const query = { _id: listingid };
+  // await listingCollection.updateOne(query, {
+  //   $set: { listings: updatedData }
+  // });
+  // return await this.getListingById(listingid);
   // },
 
   //Reserve the Listing
-  async reserveListing(listingId){
+  async reserveListing(listingId) {
     const listCollection = await listings();
     const query = { _id: listingId };
     await listCollection.updateOne(query, {
-      $set: { reserved : true }
+      $set: { reserved: true }
     });
     return await this.getListingById(listingId);
   },
-  async rentListing(listingId, renterId) {
-    if (listingId === "undefined" || renterId === "undefined")
+  async rentListing(listingId, renterId, rentingStartTime) {
+    if (
+      listingId === "undefined" ||
+      renterId === "undefined" ||
+      rentingStartTime === "undefined"
+    )
       throw new Error("please provide listingId and renterId");
     try {
       const listingCollection = await listings();
       let updationInfo = await listingCollection.updateOne(
         { _id: listingId },
-        { $set: { rentedBy: renterId } }
+        {
+          $set: {
+            rentedBy: renterId === "null" ? null : renterId,
+            rentingStartTime:
+              rentingStartTime === "null"
+                ? null
+                : Math.floor(Number(rentingStartTime) / 10000) * 10000
+          }
+        }
       );
       if (updationInfo.modifiedCount === 0)
         throw new Error("Listing not updated!");
