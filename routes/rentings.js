@@ -25,25 +25,23 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/:id", async (req, res) => {
-  const rentingData = req.body;
+router.post("/:userid/:listingid", async (req, res) => {
+  const user_id = req.params.userid;
+  const listing_id = req.params.listingid;
   try {
-    const {
-      owner,
-      renter,
-      locationName,
-      details,
-      startTime,
-      endTime
-    } = rentingData;
-    const newRenting = await rentings.addRenting(
-      req.params.id,
-      locationName,
-      details,
-      startTime,
-      endTime
-    );
+    const newRenting = await rentings.addRenting(listing_id,user_id);
     res.json(newRenting);
+  } catch (e) {
+    res.status(400).json({ error: e });
+  }
+});
+
+//Add EndDate When User clicks "End Reservation"
+router.patch("/:rentingid", async (req, res) => {
+  const renting_id = req.params.rentingid;
+  try {
+    const updatedRenting = await rentings.updateRenting(renting_id);
+    res.json(updatedRenting);
   } catch (e) {
     res.status(400).json({ error: e });
   }
