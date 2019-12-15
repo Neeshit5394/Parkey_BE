@@ -62,7 +62,6 @@ const updateUser = async (id, name, email, phnumber) => {
     name: name,
     email: email,
     phnumber: phnumber
-    // password: password,
   };
   const query = {
     _id: id

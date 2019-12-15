@@ -47,15 +47,6 @@ router.get("/:lat/:lng/:radius", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
-  try {
-    const list = await listings.getListingById(req.params.id);
-    res.json(list);
-  } catch (e) {
-    res.status(404).json({ error: e });
-  }
-});
-
 //Adding Listing where id is UserId who is posting listing
 router.post("/:id", async (req, res) => {
   const listingData = req.body;
